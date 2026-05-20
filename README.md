@@ -4,14 +4,30 @@ A command-line interface for the Eight Sleep Pod API. Query sleep data, control 
 
 Built by reverse-engineering the Eight Sleep iOS app's API calls.
 
+## Why This Exists
+
+Eight Sleep collects detailed sleep data (deep/REM/light staging, heart rate, HRV, respiratory rate, bed temperature) but locks it inside a mobile app with no export or API access. This CLI gives you programmatic access to all of it.
+
+**Designed for AI-assisted health optimization.** This repo includes a `CLAUDE.md` and `skills/` directory that give [Claude Code](https://claude.ai/claude-code), Codex, or any coding agent full context on the API, sleep science, and evidence-based temperature protocols. Point your agent at this repo and it can:
+
+- Pull your sleep trends and analyze patterns (`eight sleep week --json`)
+- Correlate sleep data with blood work (testosterone, cortisol, glucose, HRV)
+- Recommend temperature settings based on peer-reviewed research
+- Build dashboards that connect your Eight Sleep data to other health data sources
+
+The skill files in `skills/` contain specific paper citations (Van Cauter 2000, Leproult 2011, Tasali 2008, Moyen 2024) so the agent's recommendations are grounded in research, not hallucinated.
+
+**Best results come from combining sleep data with blood work.** Upload your blood panel results alongside your Eight Sleep data and the agent can trace causal chains: late bedtime → compressed deep sleep → low GH pulsatility → depleted DHEA-S → suppressed testosterone. Or: cortisol not clearing during sleep → hepatic glucose overproduction → fasting glucose at 99 despite excellent insulin sensitivity. These connections are invisible when looking at sleep data or blood work in isolation.
+
 ## Features
 
-- **Sleep data**: last night, today, weekly trends, custom date ranges with deep/REM/light breakdown
+- **Sleep data**: last night, today, weekly trends, custom date ranges with deep/REM/light breakdown, HR, HRV, respiratory rate, bed/room temperature, toss & turns
 - **Temperature control**: set levels, autopilot on/off, per-stage smart temperature
 - **Alarms**: list, create, enable/disable, snooze, dismiss
 - **Adjustable base**: angles, presets, flat
 - **Speaker**: play/pause, volume, track selection
 - **Away mode & priming**
+- **Agent-ready**: `CLAUDE.md` + research-backed `skills/` for Claude Code, Codex, or any AI coding agent
 
 ## Install
 
@@ -223,6 +239,48 @@ sessions[].timeseries.heartRate          # HR time series [[ts, val], ...]
 | `EIGHT_SLEEP_DEVICE_ID` | Device ID (auto-detected) |
 
 Stored in `.env` in the CLI directory or parent directory.
+
+## Using With Claude Code / Codex
+
+Clone this repo, install the CLI, authenticate, and point your agent at it. The `CLAUDE.md` and `skills/` directory give the agent everything it needs.
+
+```bash
+git clone https://github.com/bhaktatejas922/eightsleep-cli.git
+cd eightsleep-cli
+pip install -e .
+eight auth --email you@email.com --password yourpass
+```
+
+Then in Claude Code (or any agent that reads `CLAUDE.md`):
+
+```
+> analyze my sleep this week and tell me what to change
+> correlate my Eight Sleep data with this blood panel [paste results]
+> what temperature settings should I use for more deep sleep?
+> build me a health dashboard combining sleep and blood work
+```
+
+The agent will use the CLI to pull your data, reference the skill files for research context, and give you evidence-based recommendations.
+
+### Adding Blood Work
+
+For the best analysis, save your blood panel results as a markdown file in the repo:
+
+```
+bloodresults/
+  2024-01-15-quest.md
+  2024-06-01-labcorp.md
+```
+
+The agent can then correlate sleep patterns with blood markers: how your bedtime timing affects testosterone, how deep sleep duration relates to fasting glucose, whether your HRV trends predict cortisol levels.
+
+### Skill Files
+
+| File | What It Covers |
+|------|---------------|
+| `skills/sleep-optimization.md` | Deep sleep science, metric targets, bedtime timing research, temperature protocols |
+| `skills/temperature-protocol.md` | Eight Sleep temperature settings for different goals, troubleshooting, cited papers |
+| `skills/blood-sleep-connections.md` | How sleep metrics map to blood markers (testosterone, glucose, cortisol, DHEA-S, vitamin D, WBC) |
 
 ## Acknowledgments
 
