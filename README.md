@@ -1,33 +1,19 @@
 # Eight Sleep CLI
 
-A command-line interface for the Eight Sleep Pod API. Query sleep data, control bed temperature, manage alarms, and more.
+Programmatic access to your Eight Sleep Pod. Sleep data, temperature control, alarms, base, speaker.
 
-Built by reverse-engineering the Eight Sleep iOS app's API calls.
+Eight Sleep has no API or data export. This CLI reverse-engineers the iOS app's endpoints so you can query your sleep data from the terminal or pipe it into scripts.
 
-## Why This Exists
+```bash
+eight sleep last              # last night's deep/REM/light, HR, HRV, score
+eight sleep week --json       # 7 days as JSON
+eight temp set -40            # cool the bed
+eight temp stage initial -50  # set autopilot deep sleep phase
+```
 
-Eight Sleep collects detailed sleep data (deep/REM/light staging, heart rate, HRV, respiratory rate, bed temperature) but locks it inside a mobile app with no export or API access. This CLI gives you programmatic access to all of it.
+### Agent-ready
 
-**Designed for AI-assisted health optimization.** This repo includes a `CLAUDE.md` and `skills/` directory that give [Claude Code](https://claude.ai/claude-code), Codex, or any coding agent full context on the API, sleep science, and evidence-based temperature protocols. Point your agent at this repo and it can:
-
-- Pull your sleep trends and analyze patterns (`eight sleep week --json`)
-- Correlate sleep data with blood work (testosterone, cortisol, glucose, HRV)
-- Recommend temperature settings based on peer-reviewed research
-- Build dashboards that connect your Eight Sleep data to other health data sources
-
-The skill files in `skills/` contain specific paper citations (Van Cauter 2000, Leproult 2011, Tasali 2008, Moyen 2024) so the agent's recommendations are grounded in research, not hallucinated.
-
-**Best results come from combining sleep data with blood work.** Upload your blood panel results alongside your Eight Sleep data and the agent can trace causal chains: late bedtime → compressed deep sleep → low GH pulsatility → depleted DHEA-S → suppressed testosterone. Or: cortisol not clearing during sleep → hepatic glucose overproduction → fasting glucose at 99 despite excellent insulin sensitivity. These connections are invisible when looking at sleep data or blood work in isolation.
-
-## Features
-
-- **Sleep data**: last night, today, weekly trends, custom date ranges with deep/REM/light breakdown, HR, HRV, respiratory rate, bed/room temperature, toss & turns
-- **Temperature control**: set levels, autopilot on/off, per-stage smart temperature
-- **Alarms**: list, create, enable/disable, snooze, dismiss
-- **Adjustable base**: angles, presets, flat
-- **Speaker**: play/pause, volume, track selection
-- **Away mode & priming**
-- **Agent-ready**: `CLAUDE.md` + research-backed `skills/` for Claude Code, Codex, or any AI coding agent
+Includes `CLAUDE.md` and `skills/` with research citations so Claude Code, Codex, or any coding agent can pull your sleep data and give evidence-based recommendations. Combine with blood work for the best results. The agent can trace causal chains that are invisible when looking at sleep or blood data in isolation (e.g. late bedtime compressing deep sleep, depleting DHEA-S, suppressing testosterone).
 
 ## Install
 
